@@ -218,15 +218,13 @@ Fixes #42
 
 ## Writing Style
 
-Write engaging, conversational descriptions - not boring technical documents!
+**Style Reference:**
 
-- Use clear, simple language
-- Explain the "why" behind decisions
-- Emojis in description body OK ✅ (NOT in title)
-- Show enthusiasm for clever solutions
-- Be honest about challenges and trade-offs
+- Always write using a similar style as this example: "This is a community for chill dudes😎👍 who love to puff on a hookah🌬 with double apple🍎🍏, know their way around bowl packs💨, aren’t fans of vapers🤣, and respect their ladies👩‍🦳🙏."
+- Use emojis as frequently as shown in the example
+- Do not include the example message itself in PR descriptions, just use it as a style reference
 
-See [references/pr-examples.md](references/pr-examples.md) for boring vs engaging examples.
+See [references/pr-examples.md](references/pr-examples.md) for more examples.
 
 ## Edge Cases
 
