@@ -6,22 +6,117 @@ license: Unlicense
 
 # GitHub Pull Request
 
-## Critical: Source of Changes
+## Workflow for Generating PR Content
 
-**ALWAYS analyze ALL changes in the entire branch that will be merged**, not just:
+Follow this workflow systematically when generating PR titles and descriptions:
 
+### Step 1: Determine the Scenario
+
+**Which scenario applies?**
+
+- **Scenario A: Creating PR for existing branch with commits**
+  - Branch exists with commits that differ from base branch
+  - Need to analyze ALL commits in the branch
+  - → Use git diff/log or branch comparison tools
+
+- **Scenario B: User has uncommitted/unstaged local changes**
+  - Changes not yet committed
+  - User wants to commit and create PR
+  - → First help commit changes, then proceed with Scenario A
+
+**IMPORTANT**: Most PR requests are Scenario A - analyzing an existing feature branch!
+
+### Step 2: Identify Current Branch and Base Branch
+
+First, determine what branch you're working with:
+
+```bash
+# Get current branch name
+git branch --show-current
+
+# Identify base branch (usually main/master)
+git remote show origin | grep "HEAD branch"
+```
+
+Common base branches: `master`, `main`, `develop`
+
+### Step 3: Get Complete Branch Changes
+
+**CRITICAL**: Analyze ALL changes in the entire branch that will be merged, not just:
 - ❌ The last commit
 - ❌ Previous chat context
 - ❌ Individual file changes mentioned earlier
 
-**Required approach:**
+**What you need to obtain:**
 
-1. Request full branch diff or complete changeset
-2. Review every modified file in the branch
-3. Understand the cumulative impact of all commits
-4. Base PR title and description on the complete picture
+- Complete diff between current branch and base branch
+- List of all modified files
+- All commit messages in the branch
+- Full context of what changed
 
-This ensures PR descriptions accurately reflect the total scope of changes being merged into the target branch.
+**How to get this information:**
+
+**Primary approach - Git commands (universal):**
+
+```bash
+# Get full diff between branches
+git diff <base-branch>...<current-branch>
+
+# Example:
+git diff main...feature-branch
+
+# List changed files only:
+git diff --name-status main...feature-branch
+
+# See all commits in branch:
+git log <base-branch>..<current-branch> --oneline
+```
+
+**Alternative - Use available tools in your environment:**
+
+Depending on your environment, you may have access to:
+
+- IDE diff viewers or change tracking features
+- Version control UI showing branch comparisons
+- File comparison tools
+- Any method that shows complete changeset between branches
+
+The key is obtaining the **complete changeset**, regardless of the method.
+
+**For uncommitted changes:**
+If changes are not yet committed, first check what's uncommitted using:
+
+- `git status` and `git diff` (for git environments)
+- Your IDE's change tracker or source control panel
+- Any tool showing unstaged/uncommitted modifications
+
+**Troubleshooting "No Changes" Issue:**
+
+If you get empty diff or "no changes":
+
+1. ✅ Verify you're comparing correct branches (current vs base)
+2. ✅ Check if current branch IS the base branch (can't PR main to main!)
+3. ✅ Ensure commits exist in branch: `git log --oneline -10`
+4. ✅ Try: `git log <base-branch>..<current-branch>` to see commits
+5. ❌ If truly no changes, inform user PR cannot be created without changes
+
+### Step 4: Analyze Changes Comprehensively
+
+1. Review **every modified file** in the branch
+2. Understand the **cumulative impact** of all commits
+3. Identify **affected packages/modules** (important for monorepos)
+4. Note any **breaking changes** or **migration requirements**
+
+### Step 5: Generate PR Content
+
+Based on complete analysis, create:
+
+- Title that reflects the **main purpose** of ALL changes
+- Summary listing **all significant modifications**
+- Motivation explaining **why** these changes were needed
+- Related issues with proper linking
+
+This workflow ensures PR descriptions accurately reflect the **total scope** of changes being merged.
 
 ## Language Requirement
 
